@@ -30,13 +30,13 @@ class AddProductPacksPivotes extends Migration {
 	public function up()
 	{
 		Schema::create('package_product', function(Blueprint $table) {
-            $table->increments('id');
+			$table->increments('id');
 			$table->integer('package_id')->unsigned()->index();
 			$table->integer('product_id')->unsigned()->index();
 			$table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
 			$table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 			$table->integer('qty')->unsigned()->default(0);
-        });
+		});
 	}
 
 	/**
