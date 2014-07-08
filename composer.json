@@ -1,0 +1,32 @@
+{
+	"name": "ninjaparade/products",
+	"type": "platform-extension",
+	"description": "Product management for platform",
+	"authors": [
+		{
+			"name": "Ninja",
+			"email": "ninja@ninjaparade.ca"
+		}
+	],
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "http://packages.cartalyst.com"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"cartalyst/composer-installers": "1.1.*",
+		"illuminate/support": "~4.2"
+	},
+	"autoload": {
+		"classmap": [
+			"database/migrations",
+			"database/seeds"
+		],
+		"psr-4": {
+			"Ninjaparade\\Products\\": "src/"
+		}
+	},
+	"minimum-stability": "dev"
+}
