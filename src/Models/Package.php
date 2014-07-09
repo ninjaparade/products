@@ -8,6 +8,7 @@
  */
 
 use Platform\Attributes\Models\Entity;
+use Ninjaparade\Products\Models\Product;
 
 class Package extends Entity {
 
@@ -34,5 +35,11 @@ class Package extends Entity {
 	 * {@inheritDoc}
 	 */
 	protected $eavNamespace = 'ninjaparade/products.package';
+
+
+	public function items()
+    {
+      return $this->belongsToMany('Ninjaparade\Products\Models\Product')->withPivot(['qty']);
+    }
 
 }

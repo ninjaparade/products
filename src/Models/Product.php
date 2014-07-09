@@ -35,4 +35,10 @@ class Product extends Entity {
 	 */
 	protected $eavNamespace = 'ninjaparade/products.product';
 
+	
+	public function items()
+    {
+      return $this->belongsTo('Ninjaparade\Products\Models\Package');
+    }
+
 }
