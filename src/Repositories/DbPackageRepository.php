@@ -36,7 +36,11 @@ class DbPackageRepository implements PackageRepositoryInterface {
 	 * @var array
 	 */
 	protected $rules = [
-
+		'name' => 'required',
+        'price' => 'required|numeric',
+        'description' => 'required',
+        'products' => 'required',
+        'brand' => 'required',
 	];
 
 	/**

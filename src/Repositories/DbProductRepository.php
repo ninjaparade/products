@@ -36,7 +36,11 @@ class DbProductRepository implements ProductRepositoryInterface {
 	 * @var array
 	 */
 	protected $rules = [
-
+		'name' => 'required',
+		'sku' => 'required',
+		'price' => 'required',
+		'brand' => 'required',
+		'stock' => 'required|integer',
 	];
 
 	/**
