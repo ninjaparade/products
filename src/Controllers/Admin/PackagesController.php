@@ -15,6 +15,7 @@ use Redirect;
 use Response;
 use View;
 use Ninjaparade\Products\Repositories\PackageRepositoryInterface;
+use Ninjaparade\Products\Repositories\ProductRepositoryInterface;
 
 class PackagesController extends AdminController {
 
@@ -31,6 +32,13 @@ class PackagesController extends AdminController {
 	 * @var \Ninjaparade\Products\Repositories\PackageRepositoryInterface
 	 */
 	protected $package;
+	
+	/**
+	 * The Products repository.
+	 *
+	 * @var \Ninjaparade\Products\Repositories\ProductRepositoryInterface
+	 */
+	protected $product;
 
 	/**
 	 * Holds all the mass actions we can execute.
@@ -49,11 +57,13 @@ class PackagesController extends AdminController {
 	 * @param  \Ninjaparade\Products\Repositories\PackageRepositoryInterface  $package
 	 * @return void
 	 */
-	public function __construct(PackageRepositoryInterface $package)
+	public function __construct(PackageRepositoryInterface $package, ProductRepositoryInterface $product)
 	{
 		parent::__construct();
 
 		$this->package = $package;
+
+		$this->product = $product;
 	}
 
 	/**
@@ -196,14 +206,24 @@ class PackagesController extends AdminController {
 
 				return Redirect::toAdmin('products/packages')->withErrors($message);
 			}
+
 		}
 		else
 		{
 			$package = $this->package->createModel();
+
+		}
+
+		// Get products or return model
+		if( ! $products = $this->product->findAll())
+		{
+
+			$products = $this->product->createModel();
+
 		}
 
 		// Show the page
-		return View::make('ninjaparade/products::packages.form', compact('mode', 'package'));
+		return View::make('ninjaparade/products::packages.form', compact('mode', 'package', 'products'));
 	}
 
 	/**
@@ -215,6 +235,7 @@ class PackagesController extends AdminController {
 	 */
 	protected function processForm($mode, $id = null)
 	{
+		
 		// Get the input data
 		$data = Input::all();
 
