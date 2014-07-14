@@ -153,9 +153,14 @@ return [
 		{
 			$app->bind($PackageRepository, function($app)
 			{
+
 				$model = get_class($app['Ninjaparade\Products\Models\Package']);
 
-				return new Ninjaparade\Products\Repositories\DbPackageRepository($model, $app['events']);
+				$media = $app['Platform\Media\Repositories\MediaRepositoryInterface'];
+				
+				$product = $app['Ninjaparade\Products\Repositories\ProductRepositoryInterface'];
+
+				return new Ninjaparade\Products\Repositories\DbPackageRepository($model, $app['events'], $media, $product);
 			});
 		}
 	},
