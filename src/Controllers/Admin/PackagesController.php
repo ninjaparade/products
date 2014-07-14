@@ -235,7 +235,7 @@ class PackagesController extends AdminController {
 	 */
 	protected function processForm($mode, $id = null)
 	{
-		
+
 		// Get the input data
 		$data = Input::all();
 
@@ -254,6 +254,7 @@ class PackagesController extends AdminController {
 		}
 		else
 		{
+
 			// Check if the data is valid
 			$messages = $this->package->validForCreation($data);
 
