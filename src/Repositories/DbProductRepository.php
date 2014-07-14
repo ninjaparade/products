@@ -109,6 +109,7 @@ class DbProductRepository implements ProductRepositoryInterface {
 	 */
 	public function create(array $data)
 	{
+
 		with($product = $this->createModel())->fill($data)->save();
 
 		$this->dispatcher->fire('ninjaparade.products.product.created', $product);

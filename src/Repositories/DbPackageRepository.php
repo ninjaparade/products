@@ -7,12 +7,15 @@
  * @license    DO WHAT YOU WANT
  */
 
+
 use Cartalyst\Interpret\Interpreter;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
 use Ninjaparade\Products\Models\Package;
 use Symfony\Component\Finder\Finder;
 use Validator;
+use Input;
+use Str;
 
 class DbPackageRepository implements PackageRepositoryInterface {
 
@@ -22,6 +25,16 @@ class DbPackageRepository implements PackageRepositoryInterface {
 	 * @var string
 	 */
 	protected $model;
+
+	/**
+	 * @var Platform\Media\Repositories\MediaRepositoryInterface
+	 */
+	protected $media;
+
+	/**
+	 * @var Ninjaparade\Products\Repositories\PackageRepositoryInterface
+	 */
+	protected $product;
 
 	/**
 	 * The event dispatcher instance.
@@ -50,11 +63,15 @@ class DbPackageRepository implements PackageRepositoryInterface {
 	 * @param  \Illuminate\Events\Dispatcher  $dispatcher
 	 * @return void
 	 */
-	public function __construct($model, Dispatcher $dispatcher)
+	public function __construct($model, Dispatcher $dispatcher, $media, $product)
 	{
 		$this->model = $model;
 
 		$this->dispatcher = $dispatcher;
+
+		$this->media = $media;
+
+		$this->product = $product;
 	}
 
 	/**
@@ -109,9 +126,37 @@ class DbPackageRepository implements PackageRepositoryInterface {
 	 */
 	public function create(array $data)
 	{
+		//Package Image
+		$file = Input::file('image');
+		
+		$image = $this->media->upload($file, [ $data['name'] ]);
+
+		$data['image'] = $image['id'];
+
+		$products = [];
+
+		foreach ($data['products'] as $product) {
+
+			$p = $this->product->find($product);
+			
+			$slug = Str::slug($p->name);
+
+			array_push($products, ['id'=> $p->id, 'qty' => Input::get($slug)]);
+
+			unset($data[$slug]);
+		}
+
+		unset($data['products']);
+
 		with($package = $this->createModel())->fill($data)->save();
 
+		foreach ($products as $product) {
+			
+			$package->items()->attach($product['id'], ['qty'=> $product['qty']]);
+		}
+		
 		$this->dispatcher->fire('ninjaparade.products.package.created', $package);
+
 
 		return $package;
 	}
@@ -123,7 +168,44 @@ class DbPackageRepository implements PackageRepositoryInterface {
 	{
 		$package = $this->find($id);
 
+
+
+
+		if( $file = Input::file('image') )
+		{
+			//delete the previous image.
+			$this->media->delete($package->image);
+
+			$image = $this->media->upload($file, [ $data['name'] ]);
+
+			$data['image'] = $image['id'];
+
+		}else{
+
+			$data['image'] = $package->image;
+		}
+
+		$products = [];
+
+		foreach ($data['products'] as $product) {
+
+			$p = $this->product->find($product);
+			
+			$slug = Str::slug($p->name);
+
+			array_push($products, ['id'=> $p->id, 'qty' => Input::get($slug)]);
+
+			unset($data[$slug]);
+		}
+
+		unset($data['products']);
+
 		$package->fill($data)->save();
+
+		foreach ($products as $product) {
+			
+			$package->items()->attach($product['id'], ['qty'=> $product['qty']]);
+		}
 
 		$this->dispatcher->fire('ninjaparade.products.package.updated', $package);
 
