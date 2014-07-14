@@ -21,10 +21,10 @@ class CreatePackagesTable extends Migration {
 		Schema::create('packages', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('name');
+			$table->string('name')->nullable();
 			$table->decimal('price', 5, 2)->default(0.00);
-			$table->string('products');
-			$table->string('image');
+			$table->string('products')->nullable();
+			$table->string('image')->nullable();
 			$table->text('description')->nullable();
 			$table->string('brand')->nullable()->default('52north');
 			$table->timestamps();
