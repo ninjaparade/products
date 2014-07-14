@@ -30,8 +30,11 @@
 
 </div>
 
+
+
+
 {{-- Content form --}}
-<form id="products-form" action="{{ Request::fullUrl() }}" method="post" accept-char="UTF-8" autocomplete="off">
+<form id="products-form" action="{{ Request::fullUrl() }}" method="post" accept-char="UTF-8" autocomplete="off" enctype="multipart/form-data">
 
 	{{-- CSRF Token --}}
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -70,21 +73,88 @@
 
 				</div>
 
+				@foreach($products as $product)
 				<div class="form-group{{ $errors->first('products', ' has-error') }}">
 
-					<label for="products" class="control-label">{{{ trans('ninjaparade/products::packages/form.products') }}} <i class="fa fa-info-circle" data-toggle="popover" data-content="{{{ trans('ninjaparade/products::packages/form.products_help') }}}"></i></label>
+					<label for="products" class="control-label">{{$product->name}} <i class="fa fa-info-circle" data-toggle="popover" data-content="{{{ trans('ninjaparade/products::packages/form.products_help') }}}"></i></label>					
+				    	
+					{{-- start products foreach --}}
+					
+					
+				
+					<?php 
+						
+						$amount=0;
+	   					$slug = \Illuminate\Support\Str::slug($product->name); 	
+	    				$id = $product->id;
 
-					<input type="text" class="form-control" name="products" id="products" placeholder="{{{ trans('ninjaparade/products::packages/form.products') }}}" value="{{{ Input::old('products', $package->products) }}}">
+				    	if($package->exists)
+				    	{
+			                if($package->items->find($id))
+			                    $amount = $package->items->find($id)->pivot->qty;
+				    	}
+            
+           				if(Input::old($slug))
+			            {
+			                $amount = Input::old($slug);
+			            }
+        	
+
+            			if($package->items->find($id) && $amount > 0){
+            				$checked = true;		
+            			}else{
+            				$checked = false;			
+            			}
+                
+            			if(Input::old($slug))
+                			$checked = true;
+           
+            			?>
+					
+        			{{Form::checkbox('products[]', $product->id, $checked)}}
+        			 <select name="{{\Illuminate\Support\Str::slug($product->name)}}"   class="form-control" id="">
+		            	<option value="0">---</option>
+		            	<option @if($amount == 1) {{'selected'}} @endif value="1">1</option>
+		                <option @if($amount == 2) {{'selected'}} @endif value="2">2</option>
+		                <option @if($amount == 3) {{'selected'}} @endif value="3">3</option>
+		                <option @if($amount == 4) {{'selected'}} @endif value="4">4</option>
+		                <option @if($amount == 5) {{'selected'}} @endif value="5">5</option>
+		                <option @if($amount == 6) {{'selected'}} @endif value="6">6</option>
+		                <option @if($amount == 7) {{'selected'}} @endif value="7">7</option>
+		                <option @if($amount == 8) {{'selected'}} @endif value="8">8</option>
+		                <option @if($amount == 9) {{'selected'}} @endif value="9">9</option>
+		                <option @if($amount == 10) {{'selected'}} @endif value="10">10</option>
+		                <option @if($amount == 11) {{'selected'}} @endif value="11">11</option>
+		                <option @if($amount == 12) {{'selected'}} @endif value="12">12</option>
+		                <option @if($amount == 13) {{'selected'}} @endif value="13">13</option>
+		                <option @if($amount == 14) {{'selected'}} @endif value="14">14</option>
+		                <option @if($amount == 15) {{'selected'}} @endif value="15">15</option>
+		       		 </select>
+
+					{{-- end products foreach --}}
+					
+					
+					{{-- <input type="text" class="form-control" name="products" id="products" placeholder="{{{ trans('ninjaparade/products::packages/form.products') }}}" value="{{{ Input::old('products', $package->products) }}}"> --}}
 
 					<span class="help-block">{{{ $errors->first('products', ':message') }}}</span>
 
 				</div>
+				@endforeach
+
+
+				@if($package->exists)
+				<div class="form-group{{ $errors->first('description', ' has-error') }}">
+
+					<label for="uploaded image" class="control-label">Uploaded Image <i class="fa fa-info-circle" data-toggle="popover" data-content="Uploaded Image"></i></label>
+					   <img src="@media($package->image)" alt="" width="10%">
+				</div>
+				@endif
 
 				<div class="form-group{{ $errors->first('image', ' has-error') }}">
-
+					  
 					<label for="image" class="control-label">{{{ trans('ninjaparade/products::packages/form.image') }}} <i class="fa fa-info-circle" data-toggle="popover" data-content="{{{ trans('ninjaparade/products::packages/form.image_help') }}}"></i></label>
 
-					<input type="text" class="form-control" name="image" id="image" placeholder="{{{ trans('ninjaparade/products::packages/form.image') }}}" value="{{{ Input::old('image', $package->image) }}}">
+					<input type="file" class="form-control" name="image" id="image" placeholder="{{{ trans('ninjaparade/products::packages/form.image') }}}" value="{{{ Input::old('image', $package->image) }}}">
 
 					<span class="help-block">{{{ $errors->first('image', ':message') }}}</span>
 
