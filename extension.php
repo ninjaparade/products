@@ -163,6 +163,20 @@ return [
 				return new Ninjaparade\Products\Repositories\DbPackageRepository($model, $app['events'], $media, $product);
 			});
 		}
+
+
+		///admin form widget for Packages
+		$blade = $app['view']->getEngineResolver()->resolve('blade')->getCompiler();
+
+		$blade->extend(function($value) use ($blade)
+		{
+			$matcher = '/(\s*)@formPackage(\(.*?\)\s*)/';
+
+
+			return preg_replace($matcher, "<?php echo with(new Ninjaparade\Products\Widgets\PackageForm())->show$2; ?>", $value);
+		
+		});
+
 	},
 
 	/*
@@ -279,6 +293,8 @@ return [
 	*/
 
 	'seeds' => [
+
+		'Ninjaparade\Products\Database\Seeds\PackagesAttributesSeederTableSeeder',
 
 	],
 
