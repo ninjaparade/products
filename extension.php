@@ -90,6 +90,7 @@ return [
 
 	'require' => [
 		'platform/admin',
+		'platform/media',
 	],
 
 	/*
@@ -171,7 +172,6 @@ return [
 		$blade->extend(function($value) use ($blade)
 		{
 			$matcher = '/(\s*)@formPackage(\(.*?\)\s*)/';
-
 
 			return preg_replace($matcher, "<?php echo with(new Ninjaparade\Products\Widgets\PackageForm())->show$2; ?>", $value);
 		
@@ -394,10 +394,10 @@ return [
 
 		'admin' => [
 			[
-				'slug' => 'admin-ninjaparade-products',
-				'name' => 'Products',
+				'slug'  => 'admin-ninjaparade-products',
+				'name'  => 'Shop',
 				'class' => 'fa fa-circle-o',
-				'uri' => 'products',
+				'uri'   => 'products',
 				'children' => [
 					[
 						'slug' => 'admin-ninjaparade-products-product',
