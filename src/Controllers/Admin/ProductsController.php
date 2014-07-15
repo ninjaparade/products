@@ -63,6 +63,8 @@ class ProductsController extends AdminController {
 	 */
 	public function index()
 	{
+		$data = $this->product->grid();
+
 		return View::make('ninjaparade/products::products.index');
 	}
 
@@ -74,7 +76,7 @@ class ProductsController extends AdminController {
 	public function grid()
 	{
 		$data = $this->product->grid();
-
+		
 		$columns = [
 			'id',
 			'name',
@@ -87,10 +89,10 @@ class ProductsController extends AdminController {
 		];
 
 		$settings = [
-			'sort'      => 'created_at',
-			'direction' => 'desc',
+			'sort'      => 'id',
+			'direction' => 'asc',
 		];
-
+		
 		return DataGrid::make($data, $columns, $settings);
 	}
 
