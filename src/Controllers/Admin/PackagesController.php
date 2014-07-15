@@ -237,7 +237,7 @@ class PackagesController extends AdminController {
 	{
 
 		// Get the input data
-		$data = Input::all();
+		$data = Input::except('_token');
 
 		// Do we have a package identifier?
 		if ($id)

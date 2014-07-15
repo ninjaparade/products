@@ -126,6 +126,7 @@ class DbPackageRepository implements PackageRepositoryInterface {
 	 */
 	public function create(array $data)
 	{
+
 		//Package Image
 		$file = Input::file('image');
 		
@@ -144,6 +145,7 @@ class DbPackageRepository implements PackageRepositoryInterface {
 			array_push($products, ['id'=> $p->id, 'qty' => Input::get($slug)]);
 
 			unset($data[$slug]);
+
 		}
 
 		unset($data['products']);
@@ -167,9 +169,6 @@ class DbPackageRepository implements PackageRepositoryInterface {
 	public function update($id, array $data)
 	{
 		$package = $this->find($id);
-
-
-
 
 		if( $file = Input::file('image') )
 		{
@@ -196,11 +195,16 @@ class DbPackageRepository implements PackageRepositoryInterface {
 			array_push($products, ['id'=> $p->id, 'qty' => Input::get($slug)]);
 
 			unset($data[$slug]);
+
+			unset($data[$p->name]);
 		}
+
 
 		unset($data['products']);
 
 		$package->fill($data)->save();
+
+		$package->items()->detach();
 
 		foreach ($products as $product) {
 			
