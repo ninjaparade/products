@@ -1,8 +1,7 @@
 <?php namespace Ninjaparade\Products\Database\Seeds;
 
-use DB;
-// use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
+use DB;
 
 class PackagesAttributesSeederTableSeeder {
 
@@ -32,16 +31,6 @@ class PackagesAttributesSeederTableSeeder {
 			'enabled'   => 1,
 		]);
 
-		// $faker = Faker::create();
-
-		// DB::table('packages attributes seeder')->truncate();
-
-		// foreach(range(1, 1) as $index)
-		// {
-		// 	// DB::table('packages attributes seeder')->insert([
-		// 	// 	
-		// 	// ]);
-		// }
 	}
 
 }
