@@ -47,13 +47,7 @@ class Product extends Entity {
 	public function getSlugAttribute($value)
 	{	
 
-		if( isset( $this->attributes['name']))
-		{
-			return Str::slug($this->attributes['name']);	
-		}
-
-		return "";
-     	
+		return Str::slug( array_get($this->attributes, 'slug') );
     }
 
    
