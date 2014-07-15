@@ -8,6 +8,7 @@
  */
 
 use Platform\Attributes\Models\Entity;
+use Illuminate\Support\Str;
 
 class Product extends Entity {
 
@@ -22,6 +23,8 @@ class Product extends Entity {
 	protected $guarded = [
 		'id',
 	];
+
+	protected $appends = ['slug'];
 
 	/**
 	 * {@inheritDoc}
@@ -40,5 +43,13 @@ class Product extends Entity {
     {
       return $this->belongsTo('Ninjaparade\Products\Models\Package');
     }
+
+	public function getSlugAttribute($value)
+	{
+     	return Str::slug($this->attributes['name']);
+    }
+
+   
+
 
 }
