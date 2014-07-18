@@ -17,7 +17,7 @@ class ProductServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['ninjaparade.products'] = $this->app->share( function($app){
+		$this->app['ninjaparade.packages'] = $this->app->share( function($app){
 
 			$model = get_class($app['Ninjaparade\Products\Models\Package']);
 

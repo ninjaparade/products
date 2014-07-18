@@ -9,7 +9,7 @@ class Product extends Facade {
 	 */
 	protected static function getFacadeAccessor()
 	{
-		return 'ninjaparade.products';
+		return 'ninjaparade.packages';
 	}
 
 }
