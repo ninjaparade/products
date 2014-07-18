@@ -9,6 +9,7 @@
 
 use Cartalyst\Extensions\ExtensionInterface;
 use Illuminate\Foundation\Application;
+use Product;
 
 return [
 
@@ -136,6 +137,10 @@ return [
 
 	'register' => function(ExtensionInterface $extension, Application $app)
 	{
+
+		$app->register('Ninjaparade\Products\Laravel\ProductServiceProvider');
+		Illuminate\Foundation\AliasLoader::getInstance()->alias('Product', 'Ninjaparade\Products\Laravel\Facades\Product');
+		
 		$ProductRepository = 'Ninjaparade\Products\Repositories\ProductRepositoryInterface';
 
 		if ( ! $app->bound($ProductRepository))
@@ -196,6 +201,7 @@ return [
 
 	'boot' => function(ExtensionInterface $extension, Application $app)
 	{
+		
 		if (class_exists('Ninjaparade\Products\Models\Product'))
 		{
 			// Get the model
