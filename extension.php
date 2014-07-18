@@ -139,7 +139,7 @@ return [
 	{
 
 		$app->register('Ninjaparade\Products\Laravel\ProductServiceProvider');
-		Illuminate\Foundation\AliasLoader::getInstance()->alias('Product', 'Ninjaparade\Products\Laravel\Facades\Product');
+		Illuminate\Foundation\AliasLoader::getInstance()->alias('Store', 'Ninjaparade\Products\Laravel\Facades\Product');
 		
 		$ProductRepository = 'Ninjaparade\Products\Repositories\ProductRepositoryInterface';
 
