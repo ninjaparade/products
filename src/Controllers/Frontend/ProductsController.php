@@ -12,6 +12,12 @@ use View;
 
 class ProductsController extends BaseController {
 
+
+	public function __construct() {
+		
+		parent::__construct();
+		
+	}
 	/**
 	 * Return the main view.
 	 *
