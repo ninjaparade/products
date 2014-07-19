@@ -9,7 +9,6 @@
 
 use Cartalyst\Extensions\ExtensionInterface;
 use Illuminate\Foundation\Application;
-use Product;
 
 return [
 
@@ -275,6 +274,15 @@ return [
 			Route::group(['prefix' => 'products/packages', 'namespace' => 'Frontend'], function()
 			{
 				Route::get('/', 'PackagesController@index');
+			});
+		});
+
+
+		Route::group(['namespace' => 'Ninjaparade\Products\Controllers'], function()
+		{
+			Route::group(['prefix' => 'store', 'namespace' => 'Frontend'], function()
+			{
+				Route::get('/', 'StoresController@index');
 			});
 		});
 	},
