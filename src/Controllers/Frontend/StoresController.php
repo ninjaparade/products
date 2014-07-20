@@ -6,9 +6,13 @@ use Store;
 
 class StoresController extends BaseController {
 
+	protected $cart;
+
 	public function __construct() {
 		
 		parent::__construct();
+
+		$this->cart = app('cart');
 		
 	}
 
@@ -21,9 +25,11 @@ class StoresController extends BaseController {
 	{
 
 		$products = Store::findAll();
+		
+		$cart = $this->cart;
 
 		return View::make('ninjaparade/products::index')
-			->with(compact('products'));
+			->with(compact('products', 'cart'));
 	}
 
 }
