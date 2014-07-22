@@ -282,7 +282,9 @@ return [
 		{
 			Route::group(['prefix' => 'store', 'namespace' => 'Frontend'], function()
 			{
-				Route::get('/', 'StoresController@index');
+
+				Route::get('/',	['as' => 'store.index', 'uses' => 'StoresController@index' ] );
+				
 			});
 		});
 	},
