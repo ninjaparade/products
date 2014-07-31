@@ -1,7 +1,7 @@
 <?php namespace Ninjaparade\Products\Models;
 
 /**
- * @package    Produtcts
+ * @package    Products
  * @version    1.0.0
  * @author     Ninjaparade Inc
  * @license    DO WHAT YOU WANT
