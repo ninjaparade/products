@@ -28,7 +28,9 @@ class StoresController extends BaseController {
 		
 		$cart = $this->cart;
 
-		return View::make('ninjaparade/products::index')
+
+
+		return View::make('ninjaparade/products::shop')
 			->with(compact('products', 'cart'));
 	}
 

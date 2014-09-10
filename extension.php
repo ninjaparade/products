@@ -280,7 +280,7 @@ return [
 
 		Route::group(['namespace' => 'Ninjaparade\Products\Controllers'], function()
 		{
-			Route::group(['prefix' => 'store', 'namespace' => 'Frontend'], function()
+			Route::group(['prefix' => 'shop', 'namespace' => 'Frontend'], function()
 			{
 
 				Route::get('/',	['as' => 'store.index', 'uses' => 'StoresController@index' ] );

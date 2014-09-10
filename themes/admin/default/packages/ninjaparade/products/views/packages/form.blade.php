@@ -14,7 +14,7 @@
 @section('scripts')
 <script>
 	 
-	 $('.data-select').click(function(event) {
+	 $('.data-select').on('change', function(event) {
 
 	 	var target = $(this).data('select');
 
@@ -164,7 +164,7 @@
 
 				<a class="btn btn-default" href="{{{ URL::toAdmin('products/packages') }}}">{{{ trans('button.cancel') }}}</a>
 
-				<a class="btn btn-danger" data-toggle="modal" data-target="modal-confirm" href="{{ URL::toAdmin("products/packages/{$package->id}/delete") }}">{{{ trans('button.delete') }}}</a>
+				<a class="btn btn-danger" data-toggle="modal" data-target="modal-confirm" href="{{ URL::toAdmin('products/packages/{$package->id}/delete') }}">{{{ trans('button.delete') }}}</a>
 
 			</div>
 
