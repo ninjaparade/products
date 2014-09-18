@@ -1,34 +1,47 @@
 <?php namespace Ninjaparade\Products\Controllers\Frontend;
 
 use Platform\Foundation\Controllers\BaseController;
-use View;
 use Store;
+use View;
 
 class StoresController extends BaseController {
 
-	protected $cart;
+    protected $cart;
 
-	public function __construct() {
-		
-		parent::__construct();
+    public function __construct()
+    {
 
-		$this->cart = app('cart');
-		
-	}
+        parent::__construct();
 
-	/**
-	 * Return the main view.
-	 *
-	 * @return \Illuminate\View\View
-	 */
-	public function index()
-	{
-		$products = Store::findAll();
-		
-		$cart = $this->cart;
+        $this->cart = app('cart');
 
-		return View::make('ninjaparade/products::shop')
-			->with(compact('products', 'cart'));
-	}
+    }
+
+    /**
+     * Return the main view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
+    {
+        $products = Store::findAll();
+
+        $cart = $this->cart;
+
+        $qty = [];
+        foreach ( $products as $product )
+        {
+            $row = $this->cart->find(['id' => $product->id]);
+            if ( $row )
+            {
+                $qty[$product->id] = $row[0]->get('quantity');
+            }else{
+                $qty[$product->id] = 0;
+            }
+        }
+
+        return View::make('ninjaparade/products::shop')
+            ->with(compact('products', 'cart', 'qty'));
+    }
 
 }
