@@ -12,6 +12,7 @@
 @stop
 
 {{ Asset::queue('jquery.form.js', 'ninjaparade/products::js/form/jquery.form.js', 'jquery') }}
+{{ Asset::queue('bootstrap.modal', 'bootstrap/js/modal.js', 'jquery') }}
 {{-- Page content --}}
 @section('content')
 <div id="content-wrapper">
@@ -70,6 +71,9 @@
 </div>
 
 </div>
+
+
+@include('ninjaparade/cart::cart-notification')
 @stop
 
 
@@ -79,8 +83,19 @@
 		event.preventDefault();
 		$(this).closest('form').ajaxSubmit({
 			success: function (response){
-				
+			     $.get( "{{URL::route('cart.get_modal')}}", function( data ) {
+			     console.log(data);
+                   $('#cart-content').html(data);
+                   $('#cart-modal').modal({
+                    keyboard: false
+                   });
+                 });
+
+
+
+
 				$('.cart-nav').next('span').html( "( " + response.count + " )");
+
 			}
 		});
 	});
