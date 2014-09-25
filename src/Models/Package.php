@@ -8,38 +8,43 @@
  */
 
 use Platform\Attributes\Models\Entity;
-use Ninjaparade\Products\Models\Product;
 
 class Package extends Entity {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected $table = 'packages';
+    /**
+     * {@inheritDoc}
+     */
+    protected $table = 'packages';
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected $guarded = [
-		'id',
-	];
+    /**
+     * {@inheritDoc}
+     */
+    protected $guarded = [
+        'id',
+    ];
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected $with = [
-		'values.attribute',
-	];
+    /**
+     * {@inheritDoc}
+     */
+    protected $with = [
+        'values.attribute',
+        'product_image'
+    ];
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected $eavNamespace = 'ninjaparade/products.package';
+    /**
+     * {@inheritDoc}
+     */
+    protected $eavNamespace = 'ninjaparade/products.package';
 
 
-	public function items()
+    public function items()
     {
-      return $this->belongsToMany('Ninjaparade\Products\Models\Product')->withPivot(['qty']);
+        return $this->belongsToMany('Ninjaparade\Products\Models\Product')->withPivot(['qty']);
+    }
+
+    public function product_image()
+    {
+        return $this->belongsTo('Platform\Media\Models\Media', 'image', 'id');
     }
 
 }
