@@ -7,19 +7,19 @@
  * @license    DO WHAT YOU WANT
  */
 
-use Platform\Foundation\Controllers\BaseController;
+use Platform\Foundation\Controllers\Controller;
 use View;
 
-class PackagesController extends BaseController {
+class PackagesController extends Controller {
 
-	/**
-	 * Return the main view.
-	 *
-	 * @return \Illuminate\View\View
-	 */
-	public function index()
-	{
-		return View::make('ninjaparade/products::index');
-	}
+    /**
+     * Return the main view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
+    {
+        return View::make('ninjaparade/products::index');
+    }
 
 }

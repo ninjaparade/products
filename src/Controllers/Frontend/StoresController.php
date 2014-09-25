@@ -1,10 +1,11 @@
 <?php namespace Ninjaparade\Products\Controllers\Frontend;
 
-use Platform\Foundation\Controllers\BaseController;
+
+use Platform\Foundation\Controllers\Controller;
 use Store;
 use View;
 
-class StoresController extends BaseController {
+class StoresController extends Controller {
 
     protected $cart;
 
@@ -35,7 +36,8 @@ class StoresController extends BaseController {
             if ( $row )
             {
                 $qty[$product->id] = $row[0]->get('quantity');
-            }else{
+            } else
+            {
                 $qty[$product->id] = 0;
             }
         }

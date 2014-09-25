@@ -7,42 +7,45 @@
  * @license    DO WHAT YOU WANT
  */
 
-use Platform\Attributes\Models\Entity;
+use Cartalyst\Attributes\EntityInterface;
+use Illuminate\Database\Eloquent\Model;
+use Platform\Attributes\Traits\EntityTrait;
 use Illuminate\Support\Str;
 
-class Product extends Entity {
+class Product extends Model implements EntityInterface {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected $table = 'products';
+    use EntityTrait;
+    /**
+     * {@inheritDoc}
+     */
+    protected $table = 'products';
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected $guarded = [
-		'id',
-	];
+    /**
+     * {@inheritDoc}
+     */
+    protected $guarded = [
+        'id',
+    ];
 
-	protected $appends = ['slug'];
+    protected $appends = ['slug'];
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected $with = [
-		'values.attribute',
+    /**
+     * {@inheritDoc}
+     */
+    protected $with = [
+        'values.attribute',
         'product_image'
-	];
+    ];
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected $eavNamespace = 'ninjaparade/products.product';
+    /**
+     * {@inheritDoc}
+     */
+    protected $eavNamespace = 'ninjaparade/products.product';
 
-	
-	public function items()
+
+    public function items()
     {
-      return $this->belongsTo('Ninjaparade\Products\Models\Package');
+        return $this->belongsTo('Ninjaparade\Products\Models\Package');
     }
 
 
@@ -53,17 +56,15 @@ class Product extends Entity {
 
 
     public function getSlugAttribute($value)
-	{	
-		if( isset( $this->attributes['name']))
-		{
-			
-			return Str::slug( $this->attributes['name'] );
-		}
-		 
-		return "";
-	}
+    {
+        if ( isset($this->attributes['name']) )
+        {
 
-   
+            return Str::slug($this->attributes['name']);
+        }
+
+        return "";
+    }
 
 
 }

@@ -7,10 +7,10 @@
  * @license    DO WHAT YOU WANT
  */
 
-use Platform\Foundation\Controllers\BaseController;
+use Platform\Foundation\Controllers\Controller;
 use View;
 
-class ProductsController extends BaseController {
+class ProductsController extends Controller {
 
 
 	public function __construct() {
