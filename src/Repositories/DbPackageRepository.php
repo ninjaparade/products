@@ -94,7 +94,14 @@ class DbPackageRepository implements PackageRepositoryInterface {
 			->get();
 	}
 
-	/**
+    public function getAll()
+    {
+        return $this
+            ->createModel()
+            ->all();
+    }
+
+    /**
 	 * {@inheritDoc}
 	 */
 	public function find($id)

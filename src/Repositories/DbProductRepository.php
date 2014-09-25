@@ -7,172 +7,169 @@
  * @license    DO WHAT YOU WANT
  */
 
-use Cartalyst\Interpret\Interpreter;
 use Illuminate\Events\Dispatcher;
-use Illuminate\Filesystem\Filesystem;
-use Ninjaparade\Products\Models\Product;
-use Symfony\Component\Finder\Finder;
 use Validator;
 
 class DbProductRepository implements ProductRepositoryInterface {
 
-	/**
-	 * The Eloquent products model.
-	 *
-	 * @var string
-	 */
-	protected $model;
+    /**
+     * The Eloquent products model.
+     *
+     * @var string
+     */
+    protected $model;
 
-	/**
-	 * The event dispatcher instance.
-	 *
-	 * @var \Illuminate\Events\Dispatcher
-	 */
-	protected $dispatcher;
+    /**
+     * The event dispatcher instance.
+     *
+     * @var \Illuminate\Events\Dispatcher
+     */
+    protected $dispatcher;
 
-	/**
-	 * Holds the form validation rules.
-	 *
-	 * @var array
-	 */
-	protected $rules = [
-		'name' => 'required',
-		'sku' => 'required',
-		'price' => 'required',
-		'brand' => 'required',
-		'stock' => 'required|integer',
-	];
+    /**
+     * Holds the form validation rules.
+     *
+     * @var array
+     */
+    protected $rules = [
+        'name'  => 'required',
+        'sku'   => 'required',
+        'price' => 'required',
+        'brand' => 'required',
+        'stock' => 'required|integer',
+    ];
 
-	/**
-	 * Constructor.
-	 *
-	 * @param  string  $model
-	 * @param  \Illuminate\Events\Dispatcher  $dispatcher
-	 * @return void
-	 */
-	public function __construct($model, Dispatcher $dispatcher)
-	{
-		$this->model = $model;
+    /**
+     * Constructor.
+     *
+     * @param  string $model
+     * @param  \Illuminate\Events\Dispatcher $dispatcher
+     * @return void
+     */
+    public function __construct($model, Dispatcher $dispatcher)
+    {
+        $this->model = $model;
 
-		$this->dispatcher = $dispatcher;
-	}
+        $this->dispatcher = $dispatcher;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function grid()
-	{
-		return $this
-			->createModel();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function grid()
+    {
+        return $this
+            ->createModel();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function findAll()
-	{
-		return $this
-			->createModel()
-			->newQuery()
-			->get();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function findAll()
+    {
+        return $this
+            ->createModel()
+            ->newQuery()
+            ->get();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function find($id)
-	{
-		return $this
-			->createModel()
-			->where('id', (int) $id)
-			->first();
-	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validForCreation(array $data)
-	{
-		return $this->validateProduct($data);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function find($id)
+    {
+        return $this
+            ->createModel()
+            ->where('id', (int) $id)
+            ->first();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validForUpdate($id, array $data)
-	{
-		return $this->validateProduct($data);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function validForCreation(array $data)
+    {
+        return $this->validateProduct($data);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function create(array $data)
-	{
+    /**
+     * {@inheritDoc}
+     */
+    public function validForUpdate($id, array $data)
+    {
+        return $this->validateProduct($data);
+    }
 
-		with($product = $this->createModel())->fill($data)->save();
+    /**
+     * {@inheritDoc}
+     */
+    public function create(array $data)
+    {
 
-		$this->dispatcher->fire('ninjaparade.products.product.created', $product);
+        with($product = $this->createModel())->fill($data)->save();
 
-		return $product;
-	}
+        $this->dispatcher->fire('ninjaparade.products.product.created', $product);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function update($id, array $data)
-	{
-		$product = $this->find($id);
+        return $product;
+    }
 
-		$product->fill($data)->save();
+    /**
+     * {@inheritDoc}
+     */
+    public function update($id, array $data)
+    {
+        $product = $this->find($id);
 
-		$this->dispatcher->fire('ninjaparade.products.product.updated', $product);
+        $product->fill($data)->save();
 
-		return $product;
-	}
+        $this->dispatcher->fire('ninjaparade.products.product.updated', $product);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function delete($id)
-	{
-		if ($product = $this->find($id))
-		{
-			$this->dispatcher->fire('ninjaparade.products.product.deleted', $product);
+        return $product;
+    }
 
-			$product->delete();
+    /**
+     * {@inheritDoc}
+     */
+    public function delete($id)
+    {
+        if ( $product = $this->find($id) )
+        {
+            $this->dispatcher->fire('ninjaparade.products.product.deleted', $product);
 
-			return true;
-		}
+            $product->delete();
 
-		return false;
-	}
+            return true;
+        }
 
-	/**
-	 * Create a new instance of the model.
-	 *
-	 * @return \Illuminate\Database\Eloquent\Model
-	 */
-	public function createModel()
-	{
-		$class = '\\'.ltrim($this->model, '\\');
+        return false;
+    }
 
-		return new $class;
-	}
+    /**
+     * Create a new instance of the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function createModel()
+    {
+        $class = '\\' . ltrim($this->model, '\\');
 
-	/**
-	 * Validates a products entry.
-	 *
-	 * @param  array  $data
-	 * @return \Illuminate\Support\MessageBag
-	 */
-	protected function validateProduct($data)
-	{
-		$validator = Validator::make($data, $this->rules);
+        return new $class;
+    }
 
-		$validator->passes();
+    /**
+     * Validates a products entry.
+     *
+     * @param  array $data
+     * @return \Illuminate\Support\MessageBag
+     */
+    protected function validateProduct($data)
+    {
+        $validator = Validator::make($data, $this->rules);
 
-		return $validator->errors();
-	}
+        $validator->passes();
+
+        return $validator->errors();
+    }
 
 }
