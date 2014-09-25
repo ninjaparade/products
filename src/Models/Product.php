@@ -31,6 +31,7 @@ class Product extends Entity {
 	 */
 	protected $with = [
 		'values.attribute',
+        'product_image'
 	];
 
 	/**
@@ -44,7 +45,14 @@ class Product extends Entity {
       return $this->belongsTo('Ninjaparade\Products\Models\Package');
     }
 
-	public function getSlugAttribute($value)
+
+    public function product_image()
+    {
+        return $this->belongsTo('Platform\Media\Models\Media', 'image', 'id');
+    }
+
+
+    public function getSlugAttribute($value)
 	{	
 		if( isset( $this->attributes['name']))
 		{
