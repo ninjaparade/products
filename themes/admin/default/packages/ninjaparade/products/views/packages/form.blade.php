@@ -104,7 +104,7 @@
 				<div class="form-group{{ $errors->first('description', ' has-error') }}">
 
 					<label for="uploaded image" class="control-label">Uploaded Image <i class="fa fa-info-circle" data-toggle="popover" data-content="Uploaded Image"></i></label>
-					   <img src="@media($package->image)" alt="" width="10%">
+					<img src="@media($package->image)" alt="" width="10%">
 				</div>
 				@endif
 
