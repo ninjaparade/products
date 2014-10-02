@@ -1,6 +1,7 @@
 <?php namespace Ninjaparade\Products\Models;
 
 use Cartalyst\Attributes\EntityInterface;
+use Cartalyst\Support\Traits\NamespacedEntityTrait;
 use Illuminate\Database\Eloquent\Model;
 use Platform\Attributes\Traits\EntityTrait;
 
@@ -12,7 +13,7 @@ use Platform\Attributes\Traits\EntityTrait;
  */
 class Package extends Model implements EntityInterface {
 
-    use EntityTrait;
+    use EntityTrait, NamespacedEntityTrait;
     /**
      * {@inheritDoc}
      */
@@ -36,7 +37,7 @@ class Package extends Model implements EntityInterface {
     /**
      * {@inheritDoc}
      */
-    protected $eavNamespace = 'ninjaparade/products.package';
+    protected $entityNamespace = 'ninjaparade/products.package';
 
 
     public function items()

@@ -8,13 +8,14 @@
  */
 
 use Cartalyst\Attributes\EntityInterface;
+use Cartalyst\Support\Traits\NamespacedEntityTrait;
 use Illuminate\Database\Eloquent\Model;
 use Platform\Attributes\Traits\EntityTrait;
 use Illuminate\Support\Str;
 
 class Product extends Model implements EntityInterface {
 
-    use EntityTrait;
+    use EntityTrait, NamespacedEntityTrait;
     /**
      * {@inheritDoc}
      */
@@ -40,7 +41,7 @@ class Product extends Model implements EntityInterface {
     /**
      * {@inheritDoc}
      */
-    protected $eavNamespace = 'ninjaparade/products.product';
+    protected $entityNamespace = 'ninjaparade/products.product';
 
 
     public function items()
