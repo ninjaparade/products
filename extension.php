@@ -89,7 +89,7 @@ return [
 	*/
 
 	'require' => [
-		'platform/admin',
+		'platform/access',
 		'platform/media',
 	],
 
@@ -134,6 +134,11 @@ return [
 	|
 	*/
 
+    'providers' => [
+
+        'Ninjaparade\Products\Laravel\ExtensionServiceProvider'
+    ],
+
 	'register' => function(ExtensionInterface $extension, Application $app)
 	{
 
@@ -151,24 +156,6 @@ return [
 				return new Ninjaparade\Products\Repositories\DbProductRepository($model, $app['events']);
 			});
 		}
-
-		$PackageRepository = 'Ninjaparade\Products\Repositories\PackageRepositoryInterface';
-
-		if ( ! $app->bound($PackageRepository))
-		{
-			$app->bind($PackageRepository, function($app)
-			{
-
-				$model = get_class($app['Ninjaparade\Products\Models\Package']);
-
-				$media = $app['Platform\Media\Repositories\MediaRepositoryInterface'];
-				
-				$product = $app['Ninjaparade\Products\Repositories\ProductRepositoryInterface'];
-
-				return new Ninjaparade\Products\Repositories\DbPackageRepository($model, $app['events'], $media, $product);
-			});
-		}
-
 
 		///admin form widget for Packages
 		$blade = $app['view']->getEngineResolver()->resolve('blade')->getCompiler();
