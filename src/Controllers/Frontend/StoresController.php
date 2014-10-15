@@ -25,6 +25,7 @@ class StoresController extends Controller {
      */
     public function index()
     {
+        
         $products = Store::findAll();
 
         $cart = $this->cart;
