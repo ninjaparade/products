@@ -10,7 +10,7 @@
 use DataGrid;
 use Input;
 use Lang;
-use Platform\Access\Controllers\AdminController;
+use Platform\Admin\Controllers\Admin\AdminController;
 use Redirect;
 use Response;
 use View;

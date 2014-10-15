@@ -6,16 +6,10 @@
  * @author     Ninjaparade Inc
  * @license    DO WHAT YOU WANT
  */
+use Platform\Attributes\Models\Entity;
+use Str;
+class Product extends Entity {
 
-use Cartalyst\Attributes\EntityInterface;
-use Cartalyst\Support\Traits\NamespacedEntityTrait;
-use Illuminate\Database\Eloquent\Model;
-use Platform\Attributes\Traits\EntityTrait;
-use Illuminate\Support\Str;
-
-class Product extends Model implements EntityInterface {
-
-    use EntityTrait, NamespacedEntityTrait;
     /**
      * {@inheritDoc}
      */

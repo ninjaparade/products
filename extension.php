@@ -89,7 +89,7 @@ return [
 	*/
 
 	'require' => [
-		'platform/access',
+		'platform/admin',
 		'platform/media',
 	],
 

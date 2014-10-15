@@ -7,10 +7,10 @@
  * @license    DO WHAT YOU WANT
  */
 
-use Platform\Foundation\Controllers\Controller;
+use Platform\Foundation\Controllers\BaseController;
 use View;
 
-class PackagesController extends Controller {
+class PackagesController extends BaseController {
 
     /**
      * Return the main view.

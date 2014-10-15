@@ -1,11 +1,11 @@
 <?php namespace Ninjaparade\Products\Controllers\Frontend;
 
 
-use Platform\Foundation\Controllers\Controller;
+use Platform\Foundation\Controllers\BaseController;
 use Store;
 use View;
 
-class StoresController extends Controller {
+class StoresController extends BaseController {
 
     protected $cart;
 
