@@ -77,8 +77,8 @@
 	$('.ajax-cart').on('click', function(event) {
 		event.preventDefault();
 		
-		ga('send', 'event', 'category', 'action', 'label', $(this).data('name') );
-
+		ga('send', 'event', 'shopping', 'added to cart', 'cart buttons', $(this).data('name'));
+	
 		$(this).closest('form').ajaxSubmit({
 			success: function (response){
 			     $.get( "{{URL::route('cart.get_modal')}}", function( data ) {
