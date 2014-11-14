@@ -29,12 +29,7 @@
 		<div class="page-window">
 			<h1>the 52 North Shop</h1>
 			<p><span class="grey-underline"></span></p>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<p>Enjoy British Columbia’s most refreshing drink by having 52° North conveniently delivered by the case to your door.</p>
 		</div>
 
 		<div class="page-body">
@@ -53,9 +48,9 @@
                         	{{ Form::selectRange('quantity', 1, 20, $qty[$product->id] , array('class' => 'product-qty form-control') )}}
 
                         	@if($qty[$product->id])
-                        	{{ Form::submit('UPDATE CART', array('class'=> 'ajax-cart add-to-cart', 'data-action' => 'add'))}}
+                        	{{ Form::submit('UPDATE CART', array('class'=> 'ajax-cart add-to-cart', 'data-action' => 'add', 'data-name' => $product->name ))}}
                         	@else
-                        	{{ Form::submit('ADD TO CART', array('class'=> 'ajax-cart add-to-cart', 'data-action' => 'add'))}}
+                        	{{ Form::submit('ADD TO CART', array('class'=> 'ajax-cart add-to-cart', 'data-action' => 'add', 'data-name' => $product->name ))}}
                         	@endif
                         	{{Form::close()}}
 						</div>
@@ -81,10 +76,12 @@
 <script>
 	$('.ajax-cart').on('click', function(event) {
 		event.preventDefault();
+		
+		ga('send', 'event', 'category', 'action', 'label', $(this).data('name') );
+
 		$(this).closest('form').ajaxSubmit({
 			success: function (response){
 			     $.get( "{{URL::route('cart.get_modal')}}", function( data ) {
-			     console.log(data);
                    $('#cart-content').html(data);
                    $('#cart-modal').modal({
                     keyboard: false
